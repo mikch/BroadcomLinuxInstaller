@@ -30,7 +30,13 @@ if [[ -r /etc/os-release ]]; then
     fi
     sudo modprobe -r b44 b43 b43legacy ssb brcmsmac bcma
     sudo modprobe wl
-    echo "
+    FILE="wifi.sh"
+    if [ -e "$FILE" ]; then
+        echo "$FILE exists."
+    else
+        echo "$FILE does not exist. Creating it..."
+        touch "$FILE"
+        echo "
     
 #!/bin/sh
 
@@ -52,13 +58,9 @@ echo ip link set $WIFI up
 ip link set $WIFI up >/dev/null 2>&1
 
     " >> wifi.sh
-    chmod + x ./wifi.sh
+        chmod + x ./wifi.sh
+    fi
 else
     echo "Not running a distribution with /etc/os-release available"
     exit
 fi
-
-
-
-
-
